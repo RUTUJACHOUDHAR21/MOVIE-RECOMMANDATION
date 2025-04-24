@@ -1,129 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movies</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movie List</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-    <header>
-        <h1>Movies in <span id="category-name"></span></h1>
-    </header>
+  <header>
+    <h1>Recommended Movies</h1>
+    <p>Click any movie to see details and timing</p>
+  </header>
 
-    <section id="movie-container">
-        <!-- Movies will be dynamically displayed here -->
-    </section>
-
-    <div class="pagination">
-        <button id="back-btn">Back</button>
-        <button id="next-btn">Next</button>
+  <section class="movie-section">
+    <div class="nav-arrows">
+      <button id="prevBtn">← Previous</button>
+      <button id="nextBtn">Next →</button>
     </div>
 
-    <footer>
-        <p>&copy; 2025 Movie Recommendation</p>
-    </footer>
+    <div class="movies-container" id="moviesContainer"></div>
+  </section>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const category = urlParams.get('category');
-        document.getElementById('category-name').textContent = category.charAt(0).toUpperCase() + category.slice(1);
+  <!-- Movie Detail Modal -->
+  <div class="movie-modal" id="movieModal">
+    <div class="modal-content">
+      <span id="closeModal">&times;</span>
+      <h2 id="movieTitle">Movie Title</h2>
+      <p id="movieDescription">Movie Description...</p>
+      <p><strong>Show Timings:</strong> <span id="movieTime">12:00 PM, 3:00 PM, 6:00 PM</span></p>
+    </div>
+  </div>
 
-        const movieData = {
-            action: [
-                { title: "Mad Max: Fury Road", desc: "A post-apocalyptic wasteland.", time: "8:00 PM" },
-                { title: "John Wick", desc: "A hitman seeks revenge.", time: "9:00 PM" },
-                { title: "Die Hard", desc: "An NYPD officer fights terrorists.", time: "6:00 PM" },
-                { title: "The Dark Knight", desc: "Batman faces his greatest enemy.", time: "7:30 PM" },
-                { title: "The Avengers", desc: "A group of superheroes unite to save Earth.", time: "8:30 PM" },
-            ],
-            comedy: [
-                { title: "Superbad", desc: "High school buddies try to enjoy their last days.", time: "7:00 PM" },
-                { title: "21 Jump Street", desc: "Two cops infiltrate a high school.", time: "6:30 PM" },
-                { title: "The Hangover", desc: "A bachelor party goes horribly wrong.", time: "9:00 PM" },
-                { title: "Step Brothers", desc: "Two immature men become stepbrothers.", time: "8:00 PM" },
-                { title: "Anchorman", desc: "A funny news anchor in the 1970s.", time: "6:15 PM" },
-            ],
-            drama: [
-                { title: "The Shawshank Redemption", desc: "A banker’s journey to freedom.", time: "5:00 PM" },
-                { title: "Forrest Gump", desc: "The life of a simple man with a big heart.", time: "6:30 PM" },
-                { title: "The Godfather", desc: "A tale of crime and family legacy.", time: "8:00 PM" },
-                { title: "12 Years a Slave", desc: "A man fights for freedom.", time: "9:15 PM" },
-                { title: "A Beautiful Mind", desc: "Genius struggles with mental illness.", time: "7:00 PM" },
-            ],
-            "sci-fi": [
-                { title: "Inception", desc: "Dreams within dreams in a heist.", time: "6:00 PM" },
-                { title: "Interstellar", desc: "A journey through space and time.", time: "8:15 PM" },
-                { title: "The Matrix", desc: "Reality is a simulation.", time: "7:00 PM" },
-                { title: "Blade Runner 2049", desc: "Humans vs replicants in a dystopia.", time: "9:00 PM" },
-                { title: "Arrival", desc: "Aliens arrive, linguistics saves the day.", time: "5:30 PM" },
-            ],
-            horror: [
-                { title: "The Conjuring", desc: "Paranormal investigators face evil.", time: "8:00 PM" },
-                { title: "It", desc: "Evil clown terrorizes kids.", time: "9:15 PM" },
-                { title: "Get Out", desc: "Suspense with a social twist.", time: "10:30 PM" },
-                { title: "A Quiet Place", desc: "Silence is survival.", time: "7:30 PM" },
-                { title: "Hereditary", desc: "Family secrets bring horror.", time: "6:45 PM" },
-            ],
-            romance: [
-                { title: "Titanic", desc: "Love aboard a doomed ship.", time: "6:30 PM" },
-                { title: "The Notebook", desc: "Young lovers torn apart.", time: "8:00 PM" },
-                { title: "La La Land", desc: "Love and dreams in LA.", time: "7:00 PM" },
-                { title: "Pride & Prejudice", desc: "Period romance and class conflict.", time: "5:45 PM" },
-                { title: "The Fault in Our Stars", desc: "Teens love through illness.", time: "9:00 PM" },
-            ]
-        };
+  <footer>
+    <p>&copy; 2025 Movie Recommendation</p>
+  </footer>
 
-        const container = document.getElementById('movie-container');
-        const backBtn = document.getElementById('back-btn');
-        const nextBtn = document.getElementById('next-btn');
+  <script>
+    const movies = {
+      "action": [
+        { title: 'Inception', desc: 'A thief who steals corporate secrets through dream-sharing.', time: '12:00 PM, 3:00 PM, 6:00 PM' },
+        { title: 'The Dark Knight', desc: 'Batman faces the Joker in Gotham.', time: '2:00 PM, 5:00 PM, 9:00 PM' },
+        { title: 'Tenet', desc: 'Time-inverting agents stop WWIII.', time: '11:00 AM, 2:00 PM, 8:00 PM' },
+        { title: 'John Wick', desc: 'An ex-hitman seeks vengeance.', time: '1:00 PM, 4:00 PM, 7:00 PM' },
+        { title: 'Mad Max: Fury Road', desc: 'Post-apocalyptic car chase epic.', time: '12:30 PM, 3:30 PM, 6:30 PM' },
+        { title: 'Avengers: Endgame', desc: 'Superheroes unite to undo Thanos.', time: '10:30 AM, 1:30 PM, 4:30 PM' },
+        { title: 'Gladiator', desc: 'A betrayed general fights as a gladiator.', time: '11:00 AM, 2:30 PM, 6:00 PM' },
+        { title: 'Dunkirk', desc: 'WWII soldiers evacuation.', time: '10:00 AM, 1:00 PM, 4:00 PM' },
+        { title: 'Skyfall', desc: 'James Bond returns to MI6.', time: '12:00 PM, 3:00 PM, 9:00 PM' },
+        { title: 'Black Panther', desc: 'King T’Challa defends Wakanda.', time: '1:00 PM, 4:00 PM, 7:00 PM' }
+      ],
+      "drama": [
+        { title: 'The Shawshank Redemption', desc: 'A banker survives prison through hope.', time: '1:00 PM, 4:00 PM, 7:00 PM' },
+        { title: 'Parasite', desc: 'A poor family cons their way into a rich household.', time: '3:00 PM, 6:00 PM, 10:00 PM' },
+        { title: 'Forrest Gump', desc: 'Life journey of a slow-witted man.', time: '12:00 PM, 3:00 PM, 6:00 PM' },
+        { title: 'A Beautiful Mind', desc: 'The life of a genius mathematician with schizophrenia.', time: '11:00 AM, 2:00 PM, 5:00 PM' },
+        { title: 'The Pursuit of Happyness', desc: 'A homeless father never gives up.', time: '1:30 PM, 4:30 PM, 8:00 PM' }
+      ],
+      "sci-fi": [
+        { title: 'Interstellar', desc: 'Journey through a wormhole to save humanity.', time: '1:00 PM, 4:00 PM, 7:00 PM' },
+        { title: 'The Matrix', desc: 'A hacker discovers reality is a simulation.', time: '10:00 AM, 1:30 PM, 5:30 PM' },
+        { title: 'Dune', desc: 'War on a desert planet for control of spice.', time: '11:00 AM, 2:00 PM, 5:00 PM' },
+        { title: 'Gravity', desc: 'Astronauts survive disaster in space.', time: '12:30 PM, 3:30 PM, 7:30 PM' }
+      ],
+      "thriller": [
+        { title: 'Gone Girl', desc: 'A man becomes the suspect in his wife’s disappearance.', time: '2:00 PM, 5:00 PM, 9:00 PM' },
+        { title: 'Se7en', desc: 'Detectives hunt a serial killer who uses the seven sins.', time: '12:00 PM, 3:00 PM, 6:00 PM' },
+        { title: 'Prisoners', desc: 'A father takes matters into his own hands.', time: '1:00 PM, 4:00 PM, 7:00 PM' }
+      ],
+      "comedy": [
+        { title: 'The Hangover', desc: 'Friends lose the groom before his wedding.', time: '3:00 PM, 6:00 PM, 9:00 PM' },
+        { title: 'Superbad', desc: 'Teen boys plan to attend a party.', time: '2:00 PM, 5:00 PM, 8:00 PM' },
+        { title: 'The Grand Budapest Hotel', desc: 'A hotel concierge is framed for murder.', time: '1:00 PM, 4:00 PM, 7:00 PM' }
+      ]
+    };
 
-        let currentPage = 1;
-        const moviesPerPage = 5;
+    const queryParams = new URLSearchParams(window.location.search);
+    const category = queryParams.get('category') || 'action';
+    let movieList = movies[category] || movies['action'];
 
-        function displayMovies() {
-            container.innerHTML = '';
-            const movies = movieData[category];
-            const start = (currentPage - 1) * moviesPerPage;
-            const end = start + moviesPerPage;
-            const paginated = movies.slice(start, end);
+    let start = 0;
+    const perPage = 5;
+    const moviesContainer = document.getElementById('moviesContainer');
+    const modal = document.getElementById('movieModal');
+    const closeModal = document.getElementById('closeModal');
 
-            paginated.forEach(movie => {
-                const div = document.createElement('div');
-                div.className = 'movie-card';
-                div.innerHTML = `
-                    <h2>${movie.title}</h2>
-                    <div class="movie-details hidden">
-                        <p><strong>Description:</strong> ${movie.desc}</p>
-                        <p><strong>Showtime:</strong> ${movie.time}</p>
-                    </div>
-                `;
-                div.addEventListener('click', () => {
-                    const details = div.querySelector('.movie-details');
-                    details.classList.toggle('hidden');
-                });
-                container.appendChild(div);
-            });
-        }
-
-        backBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                displayMovies();
-            }
+    function displayMovies() {
+      moviesContainer.innerHTML = '';
+      const end = Math.min(start + perPage, movieList.length);
+      for (let i = start; i < end; i++) {
+        const movie = movieList[i];
+        const card = document.createElement('div');
+        card.className = 'movie-card';
+        card.innerHTML = `<h3>${movie.title}</h3><p>${movie.desc.substring(0, 60)}...</p>`;
+        card.addEventListener('click', () => {
+          document.getElementById('movieTitle').textContent = movie.title;
+          document.getElementById('movieDescription').textContent = movie.desc;
+          document.getElementById('movieTime').textContent = movie.time;
+          modal.style.display = 'flex';
         });
+        moviesContainer.appendChild(card);
+      }
+    }
 
-        nextBtn.addEventListener('click', () => {
-            const maxPage = Math.ceil(movieData[category].length / moviesPerPage);
-            if (currentPage < maxPage) {
-                currentPage++;
-                displayMovies();
-            }
-        });
-
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (start + perPage < movieList.length) {
+        start += perPage;
         displayMovies();
-    </script>
+      }
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (start - perPage >= 0) {
+        start -= perPage;
+        displayMovies();
+      }
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', e => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+
+    displayMovies();
+  </script>
 
 </body>
 </html>
