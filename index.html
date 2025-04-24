@@ -3,24 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Select Movie Category</title>
+  <title>Movie Categories</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>🎥 Choose a Genre</h1>
+    <h1>🎥 Select Your Favorite Genre</h1>
   </header>
 
-  <section class="category-container">
-    <button onclick="goToCategory('action')">Action</button>
-    <button onclick="goToCategory('drama')">Drama</button>
-    <button onclick="goToCategory('sci-fi')">Sci-Fi</button>
-    <button onclick="goToCategory('comedy')">Comedy</button>
-  </section>
+  <main class="category-grid">
+    <div class="category-card" onclick="goToCategory('action')">Action</div>
+    <div class="category-card" onclick="goToCategory('comedy')">Comedy</div>
+    <div class="category-card" onclick="goToCategory('drama')">Drama</div>
+    <div class="category-card" onclick="goToCategory('sci-fi')">Sci-Fi</div>
+    <div class="category-card" onclick="goToCategory('horror')">Horror</div>
+    <div class="category-card" onclick="goToCategory('romance')">Romance</div>
+  </main>
 
   <script>
-    function goToCategory(category) {
-      window.location.href = `movies.html?category=${category}`;
+    function goToCategory(genre) {
+      window.location.href = `movies.html?category=${genre}&page=1`;
     }
   </script>
 </body>
