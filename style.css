@@ -1,11 +1,78 @@
-.nav-arrows {
-  margin-top: 2rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.nav-arrows button {
+body {
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 1rem;
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  font-size: 2rem;
+  color: #fff;
+}
+
+/* Category Grid */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.category-card {
+  background-color: #111;
+  border: 1px solid #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.category-card:hover {
+  transform: scale(1.05);
+  background-color: #fff;
+  color: #000;
+}
+
+/* Movie Cards (optional reuse) */
+.movie-card {
+  background: #111;
+  border: 1px solid #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.movie-card:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* Buttons (back/next) */
+button {
   background: transparent;
   color: #fff;
   border: 1px solid #fff;
@@ -15,15 +82,19 @@
   transition: 0.3s;
 }
 
-.nav-arrows button:hover {
+button:hover {
   background: #fff;
   color: #000;
 }
 
-.movie-info-card {
-  max-width: 500px;
-  border: 1px solid #fff;
-  padding: 2rem;
-  border-radius: 10px;
-  text-align: left;
+/* Responsive Typography */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  .category-card {
+    font-size: 1rem;
+    padding: 1rem;
+  }
 }
