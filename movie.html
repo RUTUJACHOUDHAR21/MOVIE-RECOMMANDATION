@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movie Details</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header><h1>Movie Info</h1></header>
+  <section id="movie-details" class="movie-info-card"></section>
+
+  <script>
+    const movieData = {
+      "John Wick": { description: "Hitman on a mission", timings: "5PM, 8PM" },
+      "Mad Max": { description: "Post-apocalyptic action", timings: "6PM, 9PM" },
+      "Die Hard": { description: "Christmas mayhem", timings: "4PM, 7PM" },
+      "Gladiator": { description: "Roman revenge tale", timings: "3PM, 6PM" },
+      // Add the rest here
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const title = decodeURIComponent(params.get("title"));
+    const info = movieData[title];
+
+    const container = document.getElementById("movie-details");
+    if (info) {
+      container.innerHTML = `
+        <h2>${title}</h2>
+        <p><strong>Description:</strong> ${info.description}</p>
+        <p><strong>Show Timings:</strong> ${info.timings}</p>
+        <button onclick="history.back()">⬅ Back</button>
+      `;
+    } else {
+      container.innerHTML = `<p>Movie not found.</p>`;
+    }
+  </script>
+</body>
+</html>
