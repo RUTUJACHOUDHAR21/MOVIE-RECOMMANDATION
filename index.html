@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Select Movie Category</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🎥 Choose a Genre</h1>
+  </header>
+
+  <section class="category-container">
+    <button onclick="goToCategory('action')">Action</button>
+    <button onclick="goToCategory('drama')">Drama</button>
+    <button onclick="goToCategory('sci-fi')">Sci-Fi</button>
+    <button onclick="goToCategory('comedy')">Comedy</button>
+  </section>
+
+  <script>
+    function goToCategory(category) {
+      window.location.href = `movies.html?category=${category}`;
+    }
+  </script>
+</body>
+</html>
