@@ -1,18 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Movie List</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1 id="category-title">Movies</h1>
-  </header>
 
-  <main id="movie-container"></main>
+    <header>
+        <h1>Movies in <span id="category-name"></span></h1>
+    </header>
 
-  <script src="script.js"></script>
+    <section id="movie-container">
+        <!-- Movies will be dynamically displayed here -->
+    </section>
+
+    <div class="pagination">
+        <button id="back-btn">Back</button>
+        <button id="next-btn">Next</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Movie Recommendation</p>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        document.getElementById('category-name').textContent = category.charAt(0).toUpperCase() + category.slice(1);
+
+        const movieData = {
+            action: [
+                { title: "Mad Max: Fury Road", desc: "A post-apocalyptic wasteland.", time: "8:00 PM" },
+                { title: "John Wick", desc: "A hitman seeks revenge.", time: "9:00 PM" },
+                { title: "Die Hard", desc: "An NYPD officer fights terrorists.", time: "6:00 PM" },
+                { title: "The Dark Knight", desc: "Batman faces his greatest enemy.", time: "7:30 PM" },
+                { title: "The Avengers", desc: "A group of superheroes unite to save Earth.", time: "8:30 PM" },
+            ],
+            comedy: [
+                { title: "Superbad", desc: "High school buddies try to enjoy their last days.", time: "7:00 PM" },
+                { title: "21 Jump Street", desc: "Two cops infiltrate a high school.", time: "6:30 PM" },
+                { title: "The Hangover", desc: "A bachelor party goes horribly wrong.", time: "9:00 PM" },
+                { title: "Step Brothers", desc: "Two immature men become stepbrothers.", time: "8:00 PM" },
+                { title: "Anchorman", desc: "A funny news anchor in the 1970s.", time: "6:15 PM" },
+            ],
+            drama: [
+                { title: "The Shawshank Redemption", desc: "A banker’s journey to freedom.", time: "5:00 PM" },
+                { title: "Forrest Gump", desc: "The life of a simple man with a big heart.", time: "6:30 PM" },
+                { title: "The Godfather", desc: "A tale of crime and family legacy.", time: "8:00 PM" },
+                { title: "12 Years a Slave", desc: "A man fights for freedom.", time: "9:15 PM" },
+                { title: "A Beautiful Mind", desc: "Genius struggles with mental illness.", time: "7:00 PM" },
+            ],
+            "sci-fi": [
+                { title: "Inception", desc: "Dreams within dreams in a heist.", time: "6:00 PM" },
+                { title: "Interstellar", desc: "A journey through space and time.", time: "8:15 PM" },
+                { title: "The Matrix", desc: "Reality is a simulation.", time: "7:00 PM" },
+                { title: "Blade Runner 2049", desc: "Humans vs replicants in a dystopia.", time: "9:00 PM" },
+                { title: "Arrival", desc: "Aliens arrive, linguistics saves the day.", time: "5:30 PM" },
+            ],
+            horror: [
+                { title: "The Conjuring", desc: "Paranormal investigators face evil.", time: "8:00 PM" },
+                { title: "It", desc: "Evil clown terrorizes kids.", time: "9:15 PM" },
+                { title: "Get Out", desc: "Suspense with a social twist.", time: "10:30 PM" },
+                { title: "A Quiet Place", desc: "Silence is survival.", time: "7:30 PM" },
+                { title: "Hereditary", desc: "Family secrets bring horror.", time: "6:45 PM" },
+            ],
+            romance: [
+                { title: "Titanic", desc: "Love aboard a doomed ship.", time: "6:30 PM" },
+                { title: "The Notebook", desc: "Young lovers torn apart.", time: "8:00 PM" },
+                { title: "La La Land", desc: "Love and dreams in LA.", time: "7:00 PM" },
+                { title: "Pride & Prejudice", desc: "Period romance and class conflict.", time: "5:45 PM" },
+                { title: "The Fault in Our Stars", desc: "Teens love through illness.", time: "9:00 PM" },
+            ]
+        };
+
+        const container = document.getElementById('movie-container');
+        const backBtn = document.getElementById('back-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        let currentPage = 1;
+        const moviesPerPage = 5;
+
+        function displayMovies() {
+            container.innerHTML = '';
+            const movies = movieData[category];
+            const start = (currentPage - 1) * moviesPerPage;
+            const end = start + moviesPerPage;
+            const paginated = movies.slice(start, end);
+
+            paginated.forEach(movie => {
+                const div = document.createElement('div');
+                div.className = 'movie-card';
+                div.innerHTML = `
+                    <h2>${movie.title}</h2>
+                    <div class="movie-details hidden">
+                        <p><strong>Description:</strong> ${movie.desc}</p>
+                        <p><strong>Showtime:</strong> ${movie.time}</p>
+                    </div>
+                `;
+                div.addEventListener('click', () => {
+                    const details = div.querySelector('.movie-details');
+                    details.classList.toggle('hidden');
+                });
+                container.appendChild(div);
+            });
+        }
+
+        backBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayMovies();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const maxPage = Math.ceil(movieData[category].length / moviesPerPage);
+            if (currentPage < maxPage) {
+                currentPage++;
+                displayMovies();
+            }
+        });
+
+        displayMovies();
+    </script>
+
 </body>
 </html>
