@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Movie Categories</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>🎥 Select Your Favorite Genre</h1>
-  </header>
+    <header>
+        <h1>Welcome to Movie Recommendation</h1>
+    </header>
 
-  <main class="category-grid">
-    <div class="category-card" onclick="goToCategory('action')">Action</div>
-    <div class="category-card" onclick="goToCategory('comedy')">Comedy</div>
-    <div class="category-card" onclick="goToCategory('drama')">Drama</div>
-    <div class="category-card" onclick="goToCategory('sci-fi')">Sci-Fi</div>
-    <div class="category-card" onclick="goToCategory('horror')">Horror</div>
-    <div class="category-card" onclick="goToCategory('romance')">Romance</div>
-  </main>
+    <section class="category-selection">
+        <h2>Select a Category</h2>
+        <ul>
+            <li><a href="movies.html?category=action">Action</a></li>
+            <li><a href="movies.html?category=comedy">Comedy</a></li>
+            <li><a href="movies.html?category=drama">Drama</a></li>
+            <li><a href="movies.html?category=sci-fi">Sci-Fi</a></li>
+            <li><a href="movies.html?category=horror">Horror</a></li>
+            <li><a href="movies.html?category=romance">Romance</a></li>
+        </ul>
+    </section>
 
-  <script>
-    function goToCategory(genre) {
-      window.location.href = `movies.html?category=${genre}&page=1`;
-    }
-  </script>
+    <footer>
+        <p>&copy; 2025 Movie Recommendation</p>
+    </footer>
 </body>
 </html>
